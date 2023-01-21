@@ -16,10 +16,16 @@
     {% endblock %}
 </head>
 
-{# text-slate-900
-dark:text-white #}
+<body class="min-h-screen flex justify-center items-center bg-slate-200 dark:bg-slate-800">
+    <nav>
+        <ul>
+            <li><i class="fa-solid fa-star"></i> Markiert</li>
+            <li>Aufgaben</li>
+            <hr>
+            <li>Neue Liste</li>
+        </ul>
+    </nav>
 
-<body>
     {% block body %}{% endblock %}
 </body>
 
