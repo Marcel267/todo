@@ -1,21 +1,17 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}{{controller_name}}{% endblock %}
-
-{% block body %}
-<section
-    class="bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 max-w-screen-md p-8 rounded-md shadow-md">
-    <h1 class="text-4xl pb-3">Hello World</h1>
-    <p class="text-lg pb-3">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere iure iusto tempora neque modi id quod,
-        recusandae voluptatibus ex, ut ab quidem aliquid nisi esse debitis amet corporis dolor pariatur.
-    </p>
-    <button data-controller="toggle" data-action="click->toggle#themeSwitch"
-        class="rounded-md px-3 py-2 bg-slate-900 dark:bg-slate-100 hover:bg-slate-700 dark:hover:bg-slate-300 text-slate-100 dark:text-slate-900">
-        Change Theme
-    </button>
+{% extends 'base.html.twig' %} {% block title %}
+{{ controller_name }}
+{% endblock %} {% block body %}
+<section class="h-screen w-full overflow-auto">
+  <div class="mx-auto max-w-5xl p-8">
+    <h1 class="pb-3 text-4xl">Hello World</h1>
+    <ul>
+      <li>test</li>
+      <li>test</li>
+      <li>t</li>
+      <li>t</li>
+      <li>t</li>
+    </ul>
+  </div>
 </section>
-
-
 
 {% endblock %}
