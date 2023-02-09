@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Note;
+use App\Repository\CategoryRepository;
 use App\Repository\NoteRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +17,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'redirect')]
     public function test()
     {
-        return $this->redirect($this->generateUrl('home', ['category' => 'all']));
+        return $this->redirect($this->generateUrl('home', ['category' => 'tasks']));
     }
 
     #[Route('/{category}', name: 'home')]
@@ -24,10 +26,10 @@ class HomeController extends AbstractController
         $notes = null;
 
         //check if all or marked category is called
-        if ($category === null || $category === 'all') {
+        if ($category === null || $category === 'tasks') {
             $notes = $doctrine->getRepository(Note::class)->findAll();
             $icon = 'home';
-            $title = 'Alle Notizen';
+            $title = 'Aufgaben';
         } elseif ($category === 'marked') {
             $notes = $doctrine->getRepository(Note::class)->findAll();
             $icon = 'star';
@@ -71,12 +73,17 @@ class HomeController extends AbstractController
 
 
 
-    #[Route('/create', name: 'create')]
-    public function create(NoteRepository $noteRepository): JsonResponse
+    #[Route('/test/create', name: 'create')]
+    public function create(NoteRepository $noteRepository, CategoryRepository $categoryRepository): JsonResponse
     {
+        $category = new Category();
+        $category->setName('Obst');
+
+        $categoryRepository->save($category, true);
 
         $note = new Note();
-        $note->setContent('Test Notiz');
+        $note->setContent('Apfel');
+        $note->setCategory($category);
 
         $noteRepository->save($note, true);
 

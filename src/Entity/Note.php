@@ -18,7 +18,10 @@ class Note
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $created = null;
+    private ?\DateTimeInterface $createdDate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $markedDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dueDate = null;
@@ -26,9 +29,13 @@ class Note
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $reminderDate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'notes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
     public function __construct()
     {
-        $this->created = new \DateTime();
+        $this->createdDate = new \DateTime();
     }
 
     public function getId(): ?int
@@ -48,14 +55,26 @@ class Note
         return $this;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getCreatedDate(): ?\DateTimeInterface
     {
-        return $this->created;
+        return $this->createdDate;
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setCreatedDate(\DateTimeInterface $createdDate): self
     {
-        $this->created = $created;
+        $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    public function getMarkedDate(): ?\DateTimeInterface
+    {
+        return $this->markedDate;
+    }
+
+    public function setMarkedDate(?\DateTimeInterface $markedDate): self
+    {
+        $this->markedDate = $markedDate;
 
         return $this;
     }
@@ -80,6 +99,18 @@ class Note
     public function setReminderDate(?\DateTimeInterface $reminderDate): self
     {
         $this->reminderDate = $reminderDate;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

@@ -32,12 +32,12 @@
         class="mb-6 text-lg w-full rounded-xl border-none bg-slate-200 p-4 shadow-md dark:bg-slate-800"> #}
 
       <ul>
-        {% set active = category == 'all' %}
+        {% set active = category == 'tasks' %}
         <li>
-          <a href="{{path('home', { category: 'all' })}}"
+          <a href="{{path('home', { category: 'tasks' })}}"
             class="p-3 block rounded-xl hover:cursor-pointer {% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %}">
             <i class="fa-solid fa-house w-6 pr-2"></i>
-            Alle Notizen
+            Aufgaben
           </a>
         </li>
         {% set active = category == 'marked' %}

@@ -17,7 +17,7 @@
       <li class="mb-3 flex items-center rounded-xl bg-slate-100 p-4 shadow-md dark:bg-slate-700">
         <input type="checkbox" id="" value="" class="mr-2 w-5 h-5  bg-slate-300 checked:text-slate-900 rounded-md  focus:ring-slate-900 dark:focus:ring-slate-700
        dark:bg-slate-400  dark:focus:bg-slate-900 dark:checked:bg-slate-900 focus:ring-2 hover:cursor-pointer" />
-        <span>{{ note.content }}</span> {{ note.created|date('d.m.Y, H:i:s') }}
+        {{ note.content }} - {{ note.createdDate|date('d.m.Y, H:i:s') }}
         <span class="ml-auto">
           {# <i class="fa-solid fa-pencil ml-2 hover:text-slate-300 hover:cursor-pointer"></i> #}
           <i class="fa-solid fa-trash ml-2 hover:text-red-500 hover:cursor-pointer"></i>
