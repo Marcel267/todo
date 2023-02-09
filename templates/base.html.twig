@@ -32,14 +32,39 @@
         class="mb-6 text-lg w-full rounded-xl border-none bg-slate-200 p-4 shadow-md dark:bg-slate-800"> #}
 
       <ul>
-        <li class="rounded-xl p-3 hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600">
+        {% set active = category == 'all' %}
+        <li>
+          <a href="{{path('home', { category: 'all' })}}"
+            class="p-3 block rounded-xl hover:cursor-pointer {% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %}">
+            <i class="fa-solid fa-house w-6 pr-2"></i>
+            Alle Notizen
+          </a>
+        </li>
+        {% set active = category == 'marked' %}
+        <li>
+          <a href="{{path('home', { category: 'marked' })}}"
+            class="p-3 block rounded-xl hover:cursor-pointer {% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %}">
+            <i class="fa-solid fa-star w-6 pr-2"></i>
+            Markierte Notizen
+          </a>
+        </li>
+        {% set active = category == 'custom' %}
+        <li>
+          <a href="{{path('home', { category: 'custom' })}}"
+            class="p-3 block rounded-xl hover:cursor-pointer {% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %}">
+            <i class="fa-solid fa-list w-6 pr-2"></i>
+            Eigene Liste
+          </a>
+        </li>
+        {# <li class="rounded-xl p-3 hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600">
           <i class="fa-solid fa-star w-6 pr-2"></i> Markiert
         </li>
         <li class="rounded-xl p-3 hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600">
           <i class="fa-solid fa-sun w-6 pr-2"></i> Mein Tag
-        </li>
-        <li class="rounded-xl p-3 hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600">
-          <i class="fa-solid fa-plus w-6 pr-2"></i> Neue Liste
+        </li> #}
+        <li>
+          <a class="p-3 block rounded-xl hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600">
+            <i class="fa-solid fa-plus w-6 pr-2"></i> Neue Liste</a>
         </li>
       </ul>
 
