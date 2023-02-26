@@ -25,11 +25,12 @@
     <i class="fa-solid fa-circle-half-stroke"></i>
   </button>
 
+  {# @TODO: put sidebar in own controller and render the parts #}
   <div class="flex min-h-screen p-2">
     <nav class="w-80 rounded-xl bg-slate-100 p-8 text-lg shadow-md dark:bg-slate-700">
 
       {# <input type="text" placeholder="Notiz suchen"
-        class="mb-6 text-lg w-full rounded-xl border-none bg-slate-200 p-4 shadow-md dark:bg-slate-800"> #}
+        class="mb-6 text-lg w-full rounded-xl border-none bg-slate-200 p-3 shadow-sm dark:bg-slate-800"> #}
 
       <ul>
         {% set active = category == 'tasks' %}
@@ -56,12 +57,6 @@
             Eigene Liste
           </a>
         </li>
-        {# <li class="rounded-xl p-3 hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600">
-          <i class="fa-solid fa-star w-6 pr-2"></i> Markiert
-        </li>
-        <li class="rounded-xl p-3 hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600">
-          <i class="fa-solid fa-sun w-6 pr-2"></i> Mein Tag
-        </li> #}
         <li>
           <a class="p-3 block rounded-xl hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600">
             <i class="fa-solid fa-plus w-6 pr-2"></i> Neue Liste</a>

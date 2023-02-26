@@ -6,6 +6,8 @@ use App\Entity\Category;
 use App\Entity\Note;
 use App\Repository\CategoryRepository;
 use App\Repository\NoteRepository;
+use DateTime;
+use Doctrine\ORM\Mapping\Entity;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,32 +16,33 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'redirect')]
-    public function test()
-    {
-        return $this->redirect($this->generateUrl('home', ['category' => 'tasks']));
-    }
-
-    #[Route('/{category}', name: 'home')]
-    public function index(ManagerRegistry $doctrine, $category): Response
+    #[Route('/{category?}', name: 'home', defaults: ['category' => 'tasks'])]
+    public function index(ManagerRegistry $doctrine, $category, NoteRepository $noteRepository): Response
     {
         $notes = null;
 
         //check if all or marked category is called
-        if ($category === null || $category === 'tasks') {
-            $notes = $doctrine->getRepository(Note::class)->findAll();
-            $icon = 'home';
-            $title = 'Aufgaben';
-        } elseif ($category === 'marked') {
-            $notes = $doctrine->getRepository(Note::class)->findAll();
-            $icon = 'star';
-            $title = 'Markierte Notizen';
-        } else {
-            //@ TODO: get all custom notes
-            $notes = $doctrine->getRepository(Note::class)->findAll();
-            $icon = 'list';
-            $title = 'Eigene Liste';
+        switch ($category) {
+            case 'tasks':
+                $notes = $doctrine->getRepository(Note::class)->findAll();
+                $icon = 'home';
+                $title = 'Aufgaben';
+                break;
+            case 'marked':
+                $notes = $noteRepository->findAllMarked();
+                $icon = 'star';
+                $title = 'Markierte Notizen';
+                break;
+            default:
+                //@ TODO: get all custom notes
+                $notes = $doctrine->getRepository(Note::class)->findAll();
+                $icon = 'list';
+                $title = $category;
+                break;
         }
+
+
+
 
         // $notes = $doctrine->getRepository(Note::class)->findAll();
         // $icon = 'home';
@@ -74,20 +77,22 @@ class HomeController extends AbstractController
 
 
     #[Route('/test/create', name: 'create')]
-    public function create(NoteRepository $noteRepository, CategoryRepository $categoryRepository): JsonResponse
+    public function create(NoteRepository $noteRepository, CategoryRepository $categoryRepository): Response
     {
-        $category = new Category();
-        $category->setName('Obst');
+        // $category = new Category();
+        // $category->setName('Eigene Liste');
 
-        $categoryRepository->save($category, true);
+        // $categoryRepository->save($category, true);
 
-        $note = new Note();
-        $note->setContent('Apfel');
-        $note->setCategory($category);
+        // $note = new Note();
+        // $note->setContent('Eigene Notiz');
+        // $note->setCategory($category);
 
-        $noteRepository->save($note, true);
+        // $noteRepository->save($note, true);
+
+        // $noteRepository->findOneBy(['id' => 7])->setMarkedDate(new DateTime());
 
 
-        return new JsonResponse('Note Created');
+        return new Response('OK');
     }
 }
