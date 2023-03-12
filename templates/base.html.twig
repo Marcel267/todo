@@ -1,72 +1,100 @@
 <!DOCTYPE html>
 <html class="">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"
+    />
+    {# Run `composer require symfony/webpack-encore-bundle` to start using
+    Symfony UX #} {% block stylesheets %}
+    {{
+      encore_entry_link_tags("app")
+    }}
+    {% endblock %} {% block javascripts %}
+    {{
+      encore_entry_script_tags("app")
+    }}
+    {% endblock %}
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>{% block title %}Welcome!{% endblock %}</title>
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>" />
-  {# Run `composer require symfony/webpack-encore-bundle` to start using
-  Symfony UX #} {% block stylesheets %}
-  {{
-  encore_entry_link_tags("app")
-  }}
-  {% endblock %} {% block javascripts %}
-  {{
-  encore_entry_script_tags("app")
-  }}
-  {% endblock %}
-</head>
+  <body
+    class="relative z-0 flex min-h-screen items-center bg-slate-200 text-slate-900 dark:bg-slate-800 dark:text-slate-100"
+  >
+    <button
+      data-controller="toggle"
+      data-action="click->toggle#themeSwitch"
+      class="absolute top-3 right-3 rounded-full bg-slate-100 px-3 py-2 text-slate-900 shadow-md hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+    >
+      <i class="fa-solid fa-circle-half-stroke"></i>
+    </button>
 
-<body class="flex min-h-screen items-center bg-slate-200 text-slate-900 dark:bg-slate-800 dark:text-slate-100 relative">
+    {# @TODO: put sidebar in own controller and render the parts #}
+    <div class="flex min-h-screen p-2">
+      <nav
+        class="w-80 rounded-xl bg-slate-100 p-8 text-lg shadow-md dark:bg-slate-700"
+      >
+        {#
+        <input
+          type="text"
+          placeholder="Notiz suchen"
+          class="mb-6 w-full rounded-xl border-none bg-slate-200 p-3 text-lg shadow-sm dark:bg-slate-800"
+        />
+        #}
 
-  <button data-controller="toggle" data-action="click->toggle#themeSwitch"
-    class="absolute top-3 right-3 rounded-full bg-slate-100 px-3 py-2 text-slate-900 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 shadow-md">
-    <i class="fa-solid fa-circle-half-stroke"></i>
-  </button>
+        <ul>
+          {% set active = category == 'all' %}
+          <li>
+            <a
+              href="{{ path('home', { category: 'all' }) }}"
+              class="{% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %} block rounded-xl p-3 hover:cursor-pointer"
+            >
+              <span class="pr-3">
+                <i class="fa-solid fa-house w-6"></i>
+              </span>
+              Alle Notizen
+            </a>
+          </li>
+          {% set active = category == 'marked' %}
+          <li>
+            <a
+              href="{{ path('home', { category: 'marked' }) }}"
+              class="{% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %} block rounded-xl p-3 hover:cursor-pointer"
+            >
+              <span class="pr-3">
+                <i class="fa-solid fa-star w-6"></i>
+              </span>
+              Markierte Notizen
+            </a>
+          </li>
+          {% set active = category == 'custom' %}
+          <li>
+            <a
+              href="{{ path('home', { category: 1 }) }}"
+              class="{% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %} block rounded-xl p-3 hover:cursor-pointer"
+            >
+              <span class="pr-3">
+                <i class="fa-solid fa-list w-6"></i>
+              </span>
+              Obst
+            </a>
+          </li>
+          <li>
+            <a
+              class="block rounded-xl p-3 hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600"
+            >
+              <span class="pr-3">
+                <i class="fa-solid fa-plus w-6"></i>
+              </span>
+              Neue Liste
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
 
-  {# @TODO: put sidebar in own controller and render the parts #}
-  <div class="flex min-h-screen p-2">
-    <nav class="w-80 rounded-xl bg-slate-100 p-8 text-lg shadow-md dark:bg-slate-700">
-
-      {# <input type="text" placeholder="Notiz suchen"
-        class="mb-6 text-lg w-full rounded-xl border-none bg-slate-200 p-3 shadow-sm dark:bg-slate-800"> #}
-
-      <ul>
-        {% set active = category == 'tasks' %}
-        <li>
-          <a href="{{path('home', { category: 'tasks' })}}"
-            class="p-3 block rounded-xl hover:cursor-pointer {% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %}">
-            <i class="fa-solid fa-house w-6 pr-2"></i>
-            Aufgaben
-          </a>
-        </li>
-        {% set active = category == 'marked' %}
-        <li>
-          <a href="{{path('home', { category: 'marked' })}}"
-            class="p-3 block rounded-xl hover:cursor-pointer {% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %}">
-            <i class="fa-solid fa-star w-6 pr-2"></i>
-            Markierte Notizen
-          </a>
-        </li>
-        {% set active = category == 'custom' %}
-        <li>
-          <a href="{{path('home', { category: 'custom' })}}"
-            class="p-3 block rounded-xl hover:cursor-pointer {% if active %}bg-slate-300 dark:bg-slate-800{% else %}hover:bg-slate-200 hover:dark:bg-slate-600{% endif %}">
-            <i class="fa-solid fa-list w-6 pr-2"></i>
-            Eigene Liste
-          </a>
-        </li>
-        <li>
-          <a class="p-3 block rounded-xl hover:cursor-pointer hover:bg-slate-200 hover:dark:bg-slate-600">
-            <i class="fa-solid fa-plus w-6 pr-2"></i> Neue Liste</a>
-        </li>
-      </ul>
-
-    </nav>
-  </div>
-
-  {% block body %}{% endblock %}
-</body>
-
+    <div data-controller="contextmenu"></div>
+    {% block body %}{% endblock %}
+  </body>
 </html>

@@ -6,24 +6,21 @@ use App\Entity\Category;
 use App\Entity\Note;
 use App\Repository\CategoryRepository;
 use App\Repository\NoteRepository;
-use DateTime;
-use Doctrine\ORM\Mapping\Entity;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class NoteController extends AbstractController
 {
-    #[Route('/{category?}', name: 'home', defaults: ['category' => 'tasks'])]
+    #[Route('/{category?}', name: 'home', defaults: ['category' => 'all'])]
     public function index(ManagerRegistry $doctrine, $category, NoteRepository $noteRepository): Response
     {
         $notes = null;
 
         //check if all or marked category is called
         switch ($category) {
-            case 'tasks':
+            case 'all':
                 $notes = $doctrine->getRepository(Note::class)->findAll();
                 $icon = 'home';
                 $title = 'Aufgaben';
@@ -35,9 +32,10 @@ class HomeController extends AbstractController
                 break;
             default:
                 //@ TODO: get all custom notes
-                $notes = $doctrine->getRepository(Note::class)->findAll();
+                $notes = $noteRepository->findByCategory($category);
+                $categoryEntity = $doctrine->getRepository(Category::class)->findOneBy(['id' => $category]);
                 $icon = 'list';
-                $title = $category;
+                $title = $categoryEntity->getName();
                 break;
         }
 
@@ -48,8 +46,8 @@ class HomeController extends AbstractController
         // $icon = 'home';
         // $title = 'Alle Notizen';
 
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+        return $this->render('note/index.html.twig', [
+            'controller_name' => 'NoteController',
             'notes' => $notes,
             'icon' => $icon,
             'title' => $title,
@@ -66,7 +64,7 @@ class HomeController extends AbstractController
     //     $title = 'Alle Notizen';
 
     //     return $this->render('home/index.html.twig', [
-    //         'controller_name' => 'HomeController',
+    //         'controller_name' => 'NoteController',
     //         'notes' => $notes,
     //         'icon' => $icon,
     //         'title' => $title,

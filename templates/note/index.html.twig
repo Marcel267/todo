@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %} {% block title %}
+{{ controller_name }}
+{% endblock %} {% block body %}
+<section class="h-screen w-full overflow-auto">
+  <div class="mx-auto max-w-5xl p-8">
+    <span class="flex items-center pb-5">
+      <i class="fa-solid fa-{{ icon }} pr-3 text-xl"></i>
+      <h1 class="text-4xl">{{ title }}</h1>
+    </span>
+
+    <input
+      type="text"
+      placeholder="Neue Notiz"
+      class="mb-6 w-full rounded-xl border-none bg-slate-100 p-4 text-lg shadow-md dark:bg-slate-700"
+    />
+
+    <div data-controller="contextmenu">
+      <ul
+        style="display: none"
+        class="absolute z-50 bg-red-500"
+        data-contextmenu-target="menu"
+      >
+        <li>Menu1-1</li>
+        <li>Menu1-2</li>
+      </ul>
+      <ul class="text-lg">
+        {% for note in notes %}
+        <li
+          class="mb-3 flex items-center rounded-xl bg-slate-100 p-4 shadow-md dark:bg-slate-700"
+        >
+          <input
+            type="checkbox"
+            id=""
+            value=""
+            class="mr-2 h-5 w-5 rounded-md bg-slate-300 shadow-none ring-inset checked:text-slate-900 hover:cursor-pointer focus:ring-2 focus:ring-slate-900 dark:bg-slate-400 dark:checked:bg-slate-900 dark:focus:bg-slate-900 dark:focus:ring-slate-100 dark:focus:ring-offset-slate-700"
+          />
+          {#
+          <input
+            type="checkbox"
+            id=""
+            value=""
+            class="mr-2 h-5 w-5 rounded-md bg-slate-300 shadow-none ring-inset checked:text-slate-900 hover:cursor-pointer focus:ring-2 focus:ring-slate-900 dark:bg-slate-400 dark:checked:bg-white dark:focus:bg-white dark:focus:ring-slate-100 dark:focus:ring-offset-slate-700"
+          />
+          #} {{ note.content }} - {{ note.createdDate|date('d.m.Y, H:i:s') }} {%
+          if note.markedDate %}Markiert am:
+          {{ note.markedDate|date('d.m.Y, H:i:s') }}{% endif %}
+          <span class="ml-auto">
+            <i
+              class="fa-solid fa-pen-to-square ml-2 hover:cursor-pointer hover:text-slate-500 dark:hover:text-slate-300"
+            ></i>
+            <i
+              class="fa-solid fa-trash ml-2 hover:cursor-pointer hover:text-red-500"
+            ></i>
+          </span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
